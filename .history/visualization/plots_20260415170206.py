@@ -5,6 +5,7 @@ from utils.metrics import desviacion_estandar
 from visualization.dashboard import Dashboard
 import time
 
+
 # =========================
 # GENERACIÓN DE DATOS
 # =========================
@@ -13,6 +14,7 @@ import time
 ciudades = generar_ciudades(10)
 distancia = calcular_distancia(ciudades)
 costo, tiempo_m = generar_costo_tiempo(10)
+
 
 # =========================
 # EJECUCIÓN DE ALGORITMOS
@@ -27,6 +29,7 @@ t_nsga = time.time() - inicio
 inicio = time.time()
 frente_h, hist_h = modelo_hibrido(10, distancia, costo, tiempo_m)
 t_h = time.time() - inicio
+
 
 # =========================
 # MÉTRICAS DE RENDIMIENTO
@@ -45,6 +48,7 @@ for _ in range(5):
     vals.append(min(sum(x["fitness"]) for x in f))
 
 print("Desviación:", desviacion_estandar(vals))
+
 
 # =========================
 # VISUALIZACIÓN
