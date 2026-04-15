@@ -1,0 +1,14 @@
+# config.py
+
+NUM_CIUDADES = 10
+POBLACION_SIZE = 20
+GENERACIONES = 50
+
+# PSO
+W = 0.5
+C1 = 1.5
+C2 = 1.5
+
+# Probabilidades GA
+PROB_CRUCE = 0.8
+PROB_MUTACION = 0.2
