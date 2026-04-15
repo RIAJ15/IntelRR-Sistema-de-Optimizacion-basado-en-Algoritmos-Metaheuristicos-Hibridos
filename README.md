@@ -5,4 +5,4 @@ problema complejo de asignación, ruteo y planificación, demostrando su eficaci
 mediante métricas cuantitativas de rendimiento y convergencia.
 
 OPCIONES DEL PROBLEMA A RESOLVER.
- Optimización combinatoria multiobjetivo (ejemplo: costo vs distancia vs tiempo).
+- Optimización combinatoria multiobjetivo (ejemplo: costo vs distancia vs tiempo).
