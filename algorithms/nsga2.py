@@ -71,7 +71,22 @@ def nsga2(n, distancia, costo, tiempo):
         # Guardamos mejor fitness (distancia)
         historial.append(min(f["fitness"][0] for f in mejor_frente))
 
-        # IMPORTANTE: usar TODA la población
-        poblacion = generar_nueva_poblacion(evaluados)
+        # =========================
+        # ELITISMO (AQUÍ ESTÁ LA CLAVE)
+        # =========================
+
+        elite = mejor_frente
+
+        # Ordenar por calidad (opcional pero recomendable)
+        elite = sorted(elite, key=lambda x: sum(x["fitness"]))
+
+        nueva = generar_nueva_poblacion(evaluados)
+
+        elite_rutas = [e["ruta"] for e in elite]
+
+        if len(elite_rutas) >= POBLACION_SIZE:
+            poblacion = elite_rutas[:POBLACION_SIZE]
+        else:
+            poblacion = elite_rutas + nueva[:POBLACION_SIZE - len(elite_rutas)]
 
     return frentes[0], historial
