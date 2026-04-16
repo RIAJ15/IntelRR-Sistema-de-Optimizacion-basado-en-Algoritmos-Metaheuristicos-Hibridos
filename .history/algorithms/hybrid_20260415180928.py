@@ -1,6 +1,7 @@
 from algorithms.nsga2 import nsga2
 from algorithms.pso import pso_mejorar
 
+
 # =========================
 # MODELO HÍBRIDO
 # =========================
@@ -23,6 +24,7 @@ def modelo_hibrido(n, distancia, costo, tiempo):
             - soluciones mejoradas
             - historial de convergencia
     """
+
     # =========================
     # FASE 1: NSGA-II
     # =========================
