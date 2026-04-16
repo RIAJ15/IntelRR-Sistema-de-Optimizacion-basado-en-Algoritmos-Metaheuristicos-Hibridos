@@ -4,6 +4,7 @@ def domina(a, b):
     """
     return all(x <= y for x, y in zip(a, b)) and any(x < y for x, y in zip(a, b))
 
+
 def clasificar_pareto(poblacion):
     """
     Clasifica soluciones en frentes de Pareto

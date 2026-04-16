@@ -1,6 +1,7 @@
 import time
 import numpy as np
 
+
 def medir_tiempo(func):
     """
     Mide el tiempo de ejecución de una función.
@@ -17,6 +18,7 @@ def medir_tiempo(func):
     resultado = func()
     fin = time.time()
     return resultado, fin - inicio
+
 
 def desviacion_estandar(valores):
     """

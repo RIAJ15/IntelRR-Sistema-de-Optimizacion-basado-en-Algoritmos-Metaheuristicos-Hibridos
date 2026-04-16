@@ -1,6 +1,7 @@
 import random
 from utils.fitness import evaluar_ruta
 
+
 def swap(ruta):
     """
     Realiza un intercambio aleatorio de dos posiciones en la ruta.
@@ -16,6 +17,7 @@ def swap(ruta):
     i, j = random.sample(range(len(ruta)), 2)
     ruta[i], ruta[j] = ruta[j], ruta[i]
     return ruta
+
 
 def pso_mejorar(soluciones, distancia, costo, tiempo):
     """

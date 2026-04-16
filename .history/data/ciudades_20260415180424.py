@@ -1,6 +1,7 @@
 import random
 import math
 
+
 def generar_ciudades(n):
     """
     Genera n ciudades con coordenadas aleatorias.
@@ -17,6 +18,7 @@ def generar_ciudades(n):
         y = random.uniform(0, 100)
         ciudades.append((x, y))
     return ciudades
+
 
 def calcular_distancia(ciudades):
     """
@@ -38,6 +40,7 @@ def calcular_distancia(ciudades):
             matriz[i][j] = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
     return matriz
+
 
 def generar_costo_tiempo(n):
     """

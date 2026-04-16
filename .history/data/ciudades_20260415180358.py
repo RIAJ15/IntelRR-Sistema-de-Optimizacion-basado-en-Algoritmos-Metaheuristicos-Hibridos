@@ -1,5 +1,19 @@
+"""
+ciudades.py
+
+Este módulo genera los datos del problema.
+
+Aquí se crean:
+- Las ciudades (coordenadas aleatorias).
+- La matriz de distancias entre ciudades.
+- Las matrices de costo y tiempo.
+
+Estos datos se utilizan para evaluar las rutas en el modelo.
+"""
+
 import random
 import math
+
 
 def generar_ciudades(n):
     """
@@ -17,6 +31,7 @@ def generar_ciudades(n):
         y = random.uniform(0, 100)
         ciudades.append((x, y))
     return ciudades
+
 
 def calcular_distancia(ciudades):
     """
@@ -38,6 +53,7 @@ def calcular_distancia(ciudades):
             matriz[i][j] = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
     return matriz
+
 
 def generar_costo_tiempo(n):
     """

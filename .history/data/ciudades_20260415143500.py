@@ -4,12 +4,9 @@ import math
 def generar_ciudades(n):
     """
     Genera n ciudades con coordenadas aleatorias.
-
-    Parámetros:
-        n (int): Número de ciudades.
-
+    
     Retorna:
-        list: Lista de coordenadas (x, y).
+        lista de tuplas (x, y)
     """
     ciudades = []
     for _ in range(n):
@@ -18,16 +15,8 @@ def generar_ciudades(n):
         ciudades.append((x, y))
     return ciudades
 
+
 def calcular_distancia(ciudades):
-    """
-    Calcula la distancia entre todas las ciudades usando distancia euclidiana.
-
-    Parámetros:
-        ciudades (list): Lista de coordenadas.
-
-    Retorna:
-        list[list]: Matriz de distancias.
-    """
     n = len(ciudades)
     matriz = [[0]*n for _ in range(n)]
 
@@ -39,15 +28,10 @@ def calcular_distancia(ciudades):
 
     return matriz
 
+
 def generar_costo_tiempo(n):
     """
-    Genera matrices de costo y tiempo de forma aleatoria.
-
-    Parámetros:
-        n (int): Número de ciudades.
-
-    Retorna:
-        tuple: (costo, tiempo)
+    Genera matrices simuladas de costo y tiempo
     """
     costo = [[random.uniform(1, 10) for _ in range(n)] for _ in range(n)]
     tiempo = [[random.uniform(1, 10) for _ in range(n)] for _ in range(n)]

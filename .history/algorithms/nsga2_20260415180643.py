@@ -3,27 +3,27 @@ from utils.fitness import evaluar_ruta
 from utils.pareto import clasificar_pareto
 from config import *
 
-# =========================
-# CREACIÓN DE INDIVIDUO
-# =========================
+
 def crear_individuo(n):
-    """Genera una ruta aleatoria."""
+    """
+    Genera un individuo (ruta) como una permutación aleatoria de ciudades.
+    """
     ruta = list(range(n))
     random.shuffle(ruta)
     return ruta
 
-# =========================
-# CREACIÓN DE POBLACIÓN
-# =========================
+
 def crear_poblacion(n, size):
-    """Genera la población inicial."""
+    """
+    Genera una población inicial de individuos.
+    """
     return [crear_individuo(n) for _ in range(size)]
 
-# =========================
-# EVALUACIÓN DE POBLACIÓN
-# =========================
+
 def evaluar_poblacion(poblacion, distancia, costo, tiempo):
-    """Evalúa cada individuo con la función de fitness."""
+    """
+    Evalúa todos los individuos de la población usando la función de fitness.
+    """
     individuos = []
     for ruta in poblacion:
         fitness = evaluar_ruta(ruta, distancia, costo, tiempo)
@@ -33,11 +33,14 @@ def evaluar_poblacion(poblacion, distancia, costo, tiempo):
         })
     return individuos
 
-# =========================
-# CRUCE
-# =========================
+
 def cruce(padre1, padre2):
-    """Combina dos individuos para generar uno nuevo."""
+    """
+    Operador de cruce.
+
+    Combina dos rutas generando un nuevo individuo, preservando el orden
+    y evitando duplicados.
+    """
     punto = random.randint(1, len(padre1)-2)
     hijo = padre1[:punto]
 
@@ -47,21 +50,25 @@ def cruce(padre1, padre2):
 
     return hijo
 
-# =========================
-# MUTACIÓN
-# =========================
+
 def mutacion(ruta):
-    """Realiza un intercambio aleatorio en la ruta."""
+    """
+    Operador de mutación.
+
+    Realiza un intercambio aleatorio de dos posiciones en la ruta,
+    introduciendo variabilidad en la población.
+    """
     if random.random() < PROB_MUTACION:
         i, j = random.sample(range(len(ruta)), 2)
         ruta[i], ruta[j] = ruta[j], ruta[i]
     return ruta
 
-# =========================
-# GENERAR NUEVA POBLACIÓN
-# =========================
+
 def generar_nueva_poblacion(poblacion):
-    """Genera nueva población aplicando cruce y mutación."""
+    """
+    Genera una nueva población a partir de individuos existentes
+    aplicando cruce y mutación.
+    """
     nueva = []
 
     if len(poblacion) < 2:
@@ -75,12 +82,22 @@ def generar_nueva_poblacion(poblacion):
 
     return nueva
 
-# =========================
-# ALGORITMO NSGA-II
-# =========================
+
 def nsga2(n, distancia, costo, tiempo):
     """
-    Ejecuta NSGA-II con elitismo y evaluación multiobjetivo.
+    Ejecuta el algoritmo NSGA-II.
+
+    Flujo general:
+    1. Inicializa la población.
+    2. Evalúa las soluciones.
+    3. Clasifica por dominancia de Pareto.
+    4. Aplica operadores genéticos.
+    5. Preserva las mejores soluciones (elitismo).
+    6. Repite por varias generaciones.
+
+    Retorna:
+        - Frente de Pareto final.
+        - Historial de convergencia.
     """
 
     poblacion = crear_poblacion(n, POBLACION_SIZE)
@@ -88,27 +105,32 @@ def nsga2(n, distancia, costo, tiempo):
 
     for _ in range(GENERACIONES):
 
-        # Evaluación
+        # Evaluación de la población
         evaluados = evaluar_poblacion(poblacion, distancia, costo, tiempo)
 
-        # Clasificación por Pareto
+        # Clasificación por frentes de Pareto
         frentes = clasificar_pareto(evaluados)
         mejor_frente = frentes[0]
 
-        # Registro de convergencia
+        # Registro de convergencia (mejor valor)
         historial.append(min(f["fitness"][0] for f in mejor_frente))
 
         # =========================
         # ELITISMO
         # =========================
         
+        # Se conservan las mejores soluciones del frente de Pareto
         elite = mejor_frente
+
+        # Orden por calidad (suma de objetivos)
         elite = sorted(elite, key=lambda x: sum(x["fitness"]))
 
+        # Generación de nueva población
         nueva = generar_nueva_poblacion(evaluados)
 
         elite_rutas = [e["ruta"] for e in elite]
 
+        # Reemplazo elitista
         if len(elite_rutas) >= POBLACION_SIZE:
             poblacion = elite_rutas[:POBLACION_SIZE]
         else:
