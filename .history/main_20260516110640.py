@@ -102,12 +102,14 @@ print("Desviación estándar Híbrido:", desviacion_estandar(fitness_hibrido))
 
 
 # ============================================================
-# DASHBOARD INTERACTIVO
+# VISUALIZACIÓN
 # ============================================================
 
-Dashboard(
-    hist_nsga,
-    hist_hibrido,
-    frente_hibrido,
-    ciudades
-)
+# Convergencia del híbrido
+graficar_convergencia(hist_hibrido)
+
+# Comparación de convergencia
+comparar_convergencia(hist_nsga, hist_hibrido)
+
+# Frente de Pareto
+graficar_pareto([r["fitness"] for r in frente_hibrido])
