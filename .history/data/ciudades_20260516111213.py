@@ -1,15 +1,5 @@
-"""
-ciudades.py
-
-Este módulo genera los datos del problema.
-
-Aquí se crean:
-- Las ciudades (coordenadas aleatorias).
-- La matriz de distancias entre ciudades.
-- Las matrices de costo y tiempo.
-
-Estos datos se utilizan para evaluar las rutas en el modelo.
-"""
+import random
+import math
 
 import random
 import math
@@ -17,21 +7,24 @@ import math
 
 def generar_ciudades(n):
     """
-    Genera n ciudades con coordenadas aleatorias.
-
-    Parámetros:
-        n (int): Número de ciudades.
-
-    Retorna:
-        list: Lista de coordenadas (x, y).
+    Genera ciudades distribuidas tipo cuadrícula urbana.
     """
-    ciudades = []
-    for _ in range(n):
-        x = random.uniform(0, 100)
-        y = random.uniform(0, 100)
-        ciudades.append((x, y))
-    return ciudades
 
+    ciudades = []
+
+    columnas = int(math.sqrt(n))
+    espacio = 20
+
+    for i in range(n):
+        fila = i // columnas
+        columna = i % columnas
+
+        x = columna * espacio + random.uniform(-3, 3)
+        y = fila * espacio + random.uniform(-3, 3)
+
+        ciudades.append((x, y))
+
+    return ciudades
 
 def calcular_distancia(ciudades):
     """
@@ -53,7 +46,6 @@ def calcular_distancia(ciudades):
             matriz[i][j] = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
     return matriz
-
 
 def generar_costo_tiempo(n):
     """

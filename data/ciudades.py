@@ -1,21 +1,29 @@
 import random
 import math
 
+import random
+import math
+
+
 def generar_ciudades(n):
     """
-    Genera n ciudades con coordenadas aleatorias.
-
-    Parámetros:
-        n (int): Número de ciudades.
-
-    Retorna:
-        list: Lista de coordenadas (x, y).
+    Genera ciudades distribuidas tipo cuadrícula urbana.
     """
+
     ciudades = []
-    for _ in range(n):
-        x = random.uniform(0, 100)
-        y = random.uniform(0, 100)
+
+    columnas = int(math.sqrt(n))
+    espacio = 20
+
+    for i in range(n):
+        fila = i // columnas
+        columna = i % columnas
+
+        x = columna * espacio + random.uniform(-3, 3)
+        y = fila * espacio + random.uniform(-3, 3)
+
         ciudades.append((x, y))
+
     return ciudades
 
 def calcular_distancia(ciudades):
