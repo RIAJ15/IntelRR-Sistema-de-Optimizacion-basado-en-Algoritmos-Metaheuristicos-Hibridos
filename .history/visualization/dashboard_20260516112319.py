@@ -29,28 +29,19 @@ class Dashboard:
         self.btn3 = Button(ax_btn3, 'Pareto')
         self.btn4 = Button(ax_btn4, 'Rutas')
 
-        # Eventos
         self.btn1.on_clicked(self.mostrar_convergencia)
         self.btn2.on_clicked(self.mostrar_comparacion)
         self.btn3.on_clicked(self.mostrar_pareto)
         self.btn4.on_clicked(self.mostrar_rutas)
 
-        # Vista inicial
         self.mostrar_convergencia(None)
 
         plt.show()
 
     def limpiar(self):
-        """
-        Limpia el área de dibujo.
-        """
         self.ax.clear()
-        self.fig.texts.clear()
 
     def mostrar_convergencia(self, event):
-        """
-        Muestra convergencia del modelo híbrido.
-        """
         self.limpiar()
 
         self.ax.plot(self.hist_hibrido, linewidth=2)
@@ -62,9 +53,6 @@ class Dashboard:
         self.fig.canvas.draw()
 
     def mostrar_comparacion(self, event):
-        """
-        Compara convergencia entre NSGA-II y modelo híbrido.
-        """
         self.limpiar()
 
         self.ax.plot(self.hist_nsga, label="NSGA-II", linewidth=2)
@@ -79,9 +67,6 @@ class Dashboard:
         self.fig.canvas.draw()
 
     def mostrar_pareto(self, event):
-        """
-        Muestra el frente de Pareto.
-        """
         self.limpiar()
 
         if not self.frente:
@@ -118,79 +103,79 @@ class Dashboard:
 
         return xs, ys
 
-    def mostrar_rutas(self, event):
-        """
-        Muestra rutas candidatas y resalta la mejor.
-        """
-        self.limpiar()
+def mostrar_rutas(self, event):
+    self.limpiar()
 
-        # Dibujar ciudades
-        x_ciudades = [c[0] for c in self.ciudades]
-        y_ciudades = [c[1] for c in self.ciudades]
+    # Limpiar textos laterales previos
+    self.fig.texts.clear()
 
-        self.ax.scatter(x_ciudades, y_ciudades, s=120)
+    # Dibujar ciudades
+    x_ciudades = [c[0] for c in self.ciudades]
+    y_ciudades = [c[1] for c in self.ciudades]
 
-        for i, (x, y) in enumerate(self.ciudades):
-            self.ax.text(x, y, str(i), fontsize=9)
+    self.ax.scatter(x_ciudades, y_ciudades, s=120)
 
-        # Tomar algunas rutas candidatas
-        candidatas = self.frente[:5]
+    for i, (x, y) in enumerate(self.ciudades):
+        self.ax.text(x, y, str(i), fontsize=9)
 
-        for sol in candidatas:
-            xs, ys = self.ruta_ortogonal(sol["ruta"])
-            self.ax.plot(xs, ys, alpha=0.2)
+    # Dibujar rutas candidatas
+    candidatas = self.frente[:5]
 
-        # Mejor solución
-        mejor = min(self.frente, key=lambda s: sum(s["fitness"]))
-        ruta = mejor["ruta"]
+    for sol in candidatas:
+        xs, ys = self.ruta_ortogonal(sol["ruta"])
+        self.ax.plot(xs, ys, alpha=0.2)
 
-        xs, ys = self.ruta_ortogonal(ruta)
-        self.ax.plot(xs, ys, linewidth=3, label="Mejor Ruta")
+    # Mejor solución
+    mejor = min(self.frente, key=lambda s: sum(s["fitness"]))
+    ruta = mejor["ruta"]
 
-        # Mostrar orden del recorrido
-        for orden, ciudad_idx in enumerate(ruta):
-            x, y = self.ciudades[ciudad_idx]
-            self.ax.text(
-                x,
-                y + 2,
-                f"{orden + 1}",
-                fontsize=10,
-                fontweight='bold'
-            )
+    xs, ys = self.ruta_ortogonal(ruta)
+    self.ax.plot(xs, ys, linewidth=3, label="Mejor Ruta")
 
-        self.ax.set_title("Rutas Candidatas y Mejor Solución")
-        self.ax.legend()
-        self.ax.grid(True)
-
-        # =========================
-        # PANEL LATERAL
-        # =========================
-        distancia = mejor["fitness"][0]
-        costo = mejor["fitness"][1]
-        tiempo = mejor["fitness"][2]
-        total = sum(mejor["fitness"])
-
-        recorrido = " → ".join(str(c) for c in ruta)
-
-        info = (
-            "MODELO UTILIZADO\n"
-            "NSGA-II + PSO\n\n"
-            f"Soluciones mostradas: {len(candidatas)}\n\n"
-            "MEJOR SOLUCIÓN\n"
-            f"Distancia: {distancia:.2f}\n"
-            f"Costo: {costo:.2f}\n"
-            f"Tiempo: {tiempo:.2f}\n"
-            f"Fitness total: {total:.2f}\n\n"
-            "RECORRIDO:\n"
-            f"{recorrido}"
+    # Mostrar orden de recorrido
+    for orden, ciudad_idx in enumerate(ruta):
+        x, y = self.ciudades[ciudad_idx]
+        self.ax.text(
+            x,
+            y + 2,
+            f"{orden+1}",
+            fontsize=10,
+            fontweight='bold'
         )
 
-        self.fig.text(
-            0.78,
-            0.45,
-            info,
-            fontsize=9,
-            bbox=dict(facecolor='white')
-        )
+    self.ax.set_title("Rutas Candidatas y Mejor Solución")
+    self.ax.grid(True)
+    self.ax.legend()
 
-        self.fig.canvas.draw()
+    # =========================
+    # PANEL LATERAL
+    # =========================
+    distancia = mejor["fitness"][0]
+    costo = mejor["fitness"][1]
+    tiempo = mejor["fitness"][2]
+    total = sum(mejor["fitness"])
+
+    recorrido = " → ".join(str(c) for c in ruta)
+
+    info = (
+        "MODELO UTILIZADO\n"
+        "NSGA-II + PSO\n\n"
+        f"Soluciones mostradas: {len(candidatas)}\n\n"
+        "MEJOR SOLUCIÓN\n"
+        f"Distancia: {distancia:.2f}\n"
+        f"Costo: {costo:.2f}\n"
+        f"Tiempo: {tiempo:.2f}\n"
+        f"Fitness total: {total:.2f}\n\n"
+        "RECORRIDO:\n"
+        f"{recorrido}"
+    )
+
+    self.fig.text(
+        0.78,
+        0.45,
+        info,
+        fontsize=9,
+        bbox=dict(facecolor='white')
+    )
+
+    self.fig.canvas.draw()
