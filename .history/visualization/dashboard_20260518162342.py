@@ -151,25 +151,18 @@ class Dashboard:
         ruta = mejor["ruta"]
 
         xs, ys = self.ruta_ortogonal(ruta)
-        self.ax.plot(
-            xs,
-            ys,
-            color="green",
-            linewidth=4,
-            label="Mejor Ruta"
-        )
+        self.ax.plot(xs, ys, linewidth=3, label="Mejor Ruta")
 
         # Mostrar orden del recorrido
         for orden, ciudad_idx in enumerate(ruta):
             x, y = self.ciudades[ciudad_idx]
-        self.ax.text(
-            x,
-            y + 2,
-            f"{orden + 1}",
-            fontsize=10,
-            fontweight='bold',
-            color="darkred"
-        )
+            self.ax.text(
+                x,
+                y + 2,
+                f"{orden + 1}",
+                fontsize=10,
+                fontweight='bold'
+            )
 
         self.ax.set_title("Rutas Candidatas y Mejor Solución")
         self.ax.legend()
